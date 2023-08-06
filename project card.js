@@ -103,17 +103,8 @@ function init() {
 function local() {
     let projectCard = document.querySelector('project-card');
     let localJson = localStorage.getItem('data');
-
-    if (localJson) {
-        try {
-            let jsonData = JSON.parse(localJson);
-            projectCard.addElements(jsonData.record[0]);
-        } catch (error) {
-            console.error('Error parsing JSON data:', error);
-        }
-    } else {
-        console.log('No JSON data found in localStorage.');
-    }
+    let jsonData = JSON.parse(localJson);
+    projectCard.addElements(jsonData.record[0]);
 }
 
 // Function to fetch and load remote data
