@@ -11,10 +11,6 @@ class ProjectCard extends HTMLElement {
         template.innerHTML = `
             <!-- Styling for the custom element -->
             <style>
-                :host {
-                    /* Styling for the outer container */
-                }
-                
                 /* Styling for the content of the card */
                 .card-content {
                     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
@@ -119,6 +115,7 @@ function remote() {
     })
     .then(response => response.json())
     .then(data => {
+        console.log
         if (Array.isArray(data.record)) {
             let projectCard = document.querySelector('project-card');
             projectCard.addElements(data.record[0]);
