@@ -75,7 +75,19 @@ function init() {
     // Add event listeners to buttons
     let element = document.getElementById('loadLocal');
     element.addEventListener('click', function () {
-        local();
+            let projectCard = document.querySelector('project-card');
+    let localJson = localStorage.getItem('data');
+
+    if (localJson) {
+        try {
+            let jsonData = JSON.parse(localJson);
+            projectCard.addElements(jsonData.record[0]);
+        } catch (error) {
+            console.error('Error parsing JSON data:', error);
+        }
+    } else {
+        console.log('No JSON data found in localStorage.');
+    }
     });
 
     element = document.getElementById('loadRemote');
@@ -106,26 +118,20 @@ function local() {
 
 // Function to fetch and load remote data
 function remote() {
-    fetch('https://api.jsonbin.io/v3/b/64cf1b068e4aa6225ecb749d', {
+    let card = document.querySelector('project-card')
+    fetch('https://api.jsonbin.io/v3/b/64cf02a0b89b1e2299cc105a', {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
             "X-Master-Key": "$2b$10$6Z2k1FYvRElp1BXBTRO5ZObU7iCf9rIs9i49qGa32gCgcDWwXO8Xm"
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        console.log
-        if (Array.isArray(data.record)) {
-            let projectCard = document.querySelector('project-card');
-            projectCard.addElements(data.record[0]);
-        } else {
-            console.error('Remote data is not in the expected format.');
-        }
+    .then((response)=>{
+        return response.json();
     })
-    .catch(error => {
-        console.error('Error fetching remote data:', error);
-    });
+    .then(data => {
+        card.addElements(data.record)
+    })
 }
 
 // Define local data and store it in localStorage
